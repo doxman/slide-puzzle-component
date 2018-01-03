@@ -410,7 +410,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 300px;\n  height: 300px;\n  background-color: black;\n  border: 1px solid black;\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-column-gap: 1px;\n  grid-row-gap: 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: white;\n}\n\n.slidepuzzle-emptyslot {\n  background-color: black;\n}\n", ""]);
+exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 303px;\n  height: 303px;\n  margin-left: auto;\n  margin-right: auto;\n\n  background-color: black;\n  border: 1px solid black;\n\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-gap: 1px 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: white;\n}\n\n.slidepuzzle-emptyslot {\n  background-color: black;\n}\n", ""]);
 
 // exports
 
