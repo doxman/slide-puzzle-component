@@ -354,6 +354,10 @@ var _shortid = __webpack_require__(2);
 
 var shortid = _interopRequireWildcard(_shortid);
 
+var _shuffleArray = __webpack_require__(3);
+
+var _shuffleArray2 = _interopRequireDefault(_shuffleArray);
+
 __webpack_require__(4);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -365,9 +369,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var shuffle = __webpack_require__(3); // TODO: Fix mixed import style
-
 
 var SlidePuzzle = function (_Component) {
   _inherits(SlidePuzzle, _Component);
@@ -383,13 +384,13 @@ var SlidePuzzle = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { 'class': 'slidepuzzle-board' },
-        shuffle(Array.from(new Array(16), function (x, i) {
+        { className: 'slidepuzzle-board' },
+        (0, _shuffleArray2.default)(Array.from(new Array(16), function (x, i) {
           return i;
         })).map(function (i) {
           var squareID = shortid.generate();
 
-          return _react2.default.createElement('div', { key: squareID, 'class': '' + (i === 15 ? "slidepuzzle-emptyslot" : "slidepuzzle-piece") });
+          return _react2.default.createElement('div', { key: squareID, className: '' + (i === 15 ? "slidepuzzle-emptyslot" : "slidepuzzle-piece") });
         })
       );
     }
@@ -409,7 +410,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 300px;\n  height: 300px;\n  background-color: black;\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-column-gap: 1px;\n  grid-row-gap: 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: white;\n}\n\n.slidepuzzle-emptyslot {\n  background-color: black;\n}\n", ""]);
+exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 300px;\n  height: 300px;\n  background-color: black;\n  border: 1px solid black;\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-column-gap: 1px;\n  grid-row-gap: 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: white;\n}\n\n.slidepuzzle-emptyslot {\n  background-color: black;\n}\n", ""]);
 
 // exports
 
