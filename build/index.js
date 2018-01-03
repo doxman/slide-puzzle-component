@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,7 +74,7 @@ module.exports =
 "use strict";
 
 
-var randomFromSeed = __webpack_require__(13);
+var randomFromSeed = __webpack_require__(14);
 
 var ORIGINAL = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 var alphabet;
@@ -179,7 +179,7 @@ module.exports = {
 "use strict";
 
 
-var randomByte = __webpack_require__(12);
+var randomByte = __webpack_require__(13);
 
 function encode(lookup, number) {
     var loopCounter = 0;
@@ -204,17 +204,106 @@ module.exports = encode;
 
 "use strict";
 
-module.exports = __webpack_require__(10);
+module.exports = __webpack_require__(11);
 
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+/**
+ * Randomize the order of the elements in a given array.
+ * @param {Array} arr - The given array.
+ * @param {Object} [options] - Optional configuration options.
+ * @param {Boolean} [options.copy] - Sets if should return a shuffled copy of the given array. By default it's a falsy value.
+ * @param {Function} [options.rng] - Specifies a custom random number generator.
+ * @returns {Array}
+ */
+function shuffle(arr, options) {
+
+  if (!Array.isArray(arr)) {
+    throw new Error('shuffle expect an array as parameter.');
+  }
+
+  options = options || {};
+
+  var collection = arr,
+      len = arr.length,
+      rng = options.rng || Math.random,
+      random,
+      temp;
+
+  if (options.copy === true) {
+    collection = arr.slice();
+  }
+
+  while (len) {
+    random = Math.floor(rng() * len);
+    len -= 1;
+    temp = collection[len];
+    collection[len] = collection[random];
+    collection[random] = temp;
+  }
+
+  return collection;
+};
+
+/**
+ * Pick one or more random elements from the given array.
+ * @param {Array} arr - The given array.
+ * @param {Object} [options] - Optional configuration options.
+ * @param {Number} [options.picks] - Specifies how many random elements you want to pick. By default it picks 1.
+ * @param {Function} [options.rng] - Specifies a custom random number generator.
+ * @returns {Object}
+ */
+shuffle.pick = function(arr, options) {
+
+  if (!Array.isArray(arr)) {
+    throw new Error('shuffle.pick() expect an array as parameter.');
+  }
+
+  options = options || {};
+
+  var rng = options.rng || Math.random,
+      picks = options.picks || 1;
+
+  if (typeof picks === 'number' && picks !== 1) {
+    var len = arr.length,
+        collection = arr.slice(),
+        random = [],
+        index;
+
+    while (picks && len) {
+      index = Math.floor(rng() * len);
+      random.push(collection[index]);
+      collection.splice(index, 1);
+      len -= 1;
+      picks -= 1;
+    }
+
+    return random;
+  }
+
+  return arr[Math.floor(rng() * arr.length)];
+};
+
+/**
+ * Expose
+ */
+module.exports = shuffle;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(6);
+var content = __webpack_require__(7);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -222,7 +311,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(15)(content, options);
+var update = __webpack_require__(16)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -239,13 +328,13 @@ if(false) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("react");
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -257,7 +346,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(4);
+var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -265,7 +354,11 @@ var _shortid = __webpack_require__(2);
 
 var shortid = _interopRequireWildcard(_shortid);
 
-__webpack_require__(3);
+var _shuffleArray = __webpack_require__(3);
+
+var shuffle = _interopRequireWildcard(_shuffleArray);
+
+__webpack_require__(4);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -292,12 +385,12 @@ var SlidePuzzle = function (_Component) {
       return _react2.default.createElement(
         'div',
         { 'class': 'slidepuzzle-board' },
-        Array.from(new Array(16), function (x, i) {
+        shuffle(Array.from(new Array(16), function (x, i) {
           return i;
-        }).map(function (i) {
+        })).map(function (i) {
           var squareID = shortid.generate();
 
-          return _react2.default.createElement('div', { key: squareID, 'class': 'slidepuzzle-piece' });
+          return _react2.default.createElement('div', { key: squareID, 'class': '' + (i === 15 ? "slidepuzzle-emptyslot" : "slidepuzzle-piece") });
         })
       );
     }
@@ -309,21 +402,21 @@ var SlidePuzzle = function (_Component) {
 exports.default = SlidePuzzle;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 300px;\n  height: 300px;\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-column-gap: 1px;\n  grid-row-gap: 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: black;\n}\n", ""]);
+exports.push([module.i, "html {\n  --board-size: 4;\n}\n\n.slidepuzzle-board {\n  width: 300px;\n  height: 300px;\n  background-color: black;\n  display: grid;\n  grid-template-rows: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-template-columns: repeat(var(--board-size), calc(300px / var(--board-size)));\n  grid-column-gap: 1px;\n  grid-row-gap: 1px;\n}\n\n.slidepuzzle-piece {\n  background-color: white;\n}\n\n.slidepuzzle-emptyslot {\n  background-color: black;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 /*
@@ -405,7 +498,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -460,7 +553,7 @@ module.exports = build;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -484,7 +577,7 @@ module.exports = decode;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -492,15 +585,15 @@ module.exports = decode;
 
 var alphabet = __webpack_require__(0);
 var encode = __webpack_require__(1);
-var decode = __webpack_require__(9);
-var build = __webpack_require__(8);
-var isValid = __webpack_require__(11);
+var decode = __webpack_require__(10);
+var build = __webpack_require__(9);
+var isValid = __webpack_require__(12);
 
 // if you are using cluster or multiple servers use this to make each instance
 // has a unique value for worker
 // Note: I don't know if this is automatically set when using third
 // party cluster solutions such as pm2.
-var clusterWorkerId = __webpack_require__(14) || 0;
+var clusterWorkerId = __webpack_require__(15) || 0;
 
 /**
  * Set the seed.
@@ -556,7 +649,7 @@ module.exports.isValid = isValid;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -582,7 +675,7 @@ module.exports = isShortId;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -603,7 +696,7 @@ module.exports = randomByte;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -635,7 +728,7 @@ module.exports = {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -645,7 +738,7 @@ module.exports = 0;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -701,7 +794,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(16);
+var	fixUrls = __webpack_require__(17);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1017,7 +1110,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 
