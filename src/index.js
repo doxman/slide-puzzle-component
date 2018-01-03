@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as shortid from 'shortid';
-import * as shuffle from 'shuffle-array';
 import './index.css';
+var shuffle = require('shuffle-array'); // TODO: Fix mixed import style
 
 
 class SlidePuzzle extends Component {
