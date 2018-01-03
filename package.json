@@ -1,6 +1,6 @@
 {
   "name": "@zeoxyman/slide-puzzle-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Slide puzzle as a React library",
   "main": "build/index.js",
   "peerDependencies": {
