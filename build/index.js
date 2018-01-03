@@ -289,7 +289,7 @@ var SlidePuzzle = function (_Component) {
   _createClass(SlidePuzzle, [{
     key: 'render',
     value: function render() {
-      _react2.default.createElement(
+      return _react2.default.createElement(
         'div',
         { 'class': 'slidepuzzle-board' },
         Array.from(new Array(16), function (x, i) {
