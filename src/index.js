@@ -3,10 +3,19 @@ import * as shortid from 'shortid';
 import './index.css';
 
 
-function SlidePuzzle(props) {
-  return (
-    <p>Hello, world!</p>
-  );
+class SlidePuzzle extends Component {
+  render() {
+    <div class="slidepuzzle-board">
+      { Array.from(new Array(16), (x,i) => i).map(i => {
+        const squareID = shortid.generate();
+
+        return (
+          <div key={squareID} class="slidepuzzle-piece">
+          </div>
+        );
+      })}
+    </div>
+  }
 }
 
 export default SlidePuzzle;
